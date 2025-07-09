@@ -4,6 +4,7 @@ const responseTime = require('response-time')
 const db = require('./config/db_config')
 const {PORT, DB_FORCE, DB_ALTER} = require('./config/server_config')
 const apiRoutes = require('./routes/index')
+const carbonRoutes = require('./routes/carbonRoutes');
 
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
@@ -28,6 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
 
 app.use('/api', apiRoutes); 
+app.use('/carbon', carbonRoutes);
 
 app.use((req, res) => {
     res.status(404).json({ message: "Route not found" })

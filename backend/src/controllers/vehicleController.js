@@ -29,6 +29,17 @@ class VehicleController {
     }
   }
   
+  getUserVehicles = async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const vehicles = await this.vehicleService.getUserVehicles(userId);
+      res.status(200).json({ data: vehicles });
+    } catch (error) {
+      console.error("GetUserVehicles Error:", error.message);
+      res.status(500).json({ message: error.message || "Internal Server Error" });
+    }
+  };
+
 }
 
 module.exports = VehicleController;
