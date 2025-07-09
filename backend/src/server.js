@@ -34,7 +34,7 @@ app.use((req, res) => {
 })
 
 app.listen(PORT, async() => {
-    console.log("Server for shop cart is up")
+    console.log("Server for carbon is up")
 
     if(DB_FORCE === "true"){
       // console.log("FORCE")
