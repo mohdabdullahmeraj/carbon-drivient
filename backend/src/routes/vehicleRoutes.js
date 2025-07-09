@@ -10,5 +10,7 @@ router.post('/add', authMiddleware, vehicleController.addVehicle);
 router.get('/my', authMiddleware, vehicleController.getUserVehicles);
 router.put('/:id', authMiddleware, vehicleController.updateVehicle);
 router.delete('/:id', authMiddleware, vehicleController.deleteVehicle);
+router.get('/summary', authMiddleware, vehicleController.getVehicleSummary);
+
 
 module.exports = router;

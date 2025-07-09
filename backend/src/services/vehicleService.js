@@ -54,6 +54,34 @@ class VehicleService {
     return await vehicleRepository.deleteVehicle(id);
   }
 
+  async getVehicleSummary(userId) {
+    const allVehicles = await vehicleRepository.getVehiclesByUser(userId);
+
+    if (!allVehicles || allVehicles.length === 0) {
+      return {
+        totalEmissionKg: 0,
+        averageEmissionPerTripKg: 0,
+        highestEmissionTrip: null,
+        lowestEmissionTrip: null
+      };
+    }
+
+    const totalEmission = allVehicles.reduce((sum, v) => sum + v.carbonEmitted, 0);
+    const averageEmission = totalEmission / allVehicles.length;
+
+    const sortedByEmission = [...allVehicles].sort((a, b) => a.carbonEmitted - b.carbonEmitted);
+    const lowestEmissionTrip = sortedByEmission[0];
+    const highestEmissionTrip = sortedByEmission[sortedByEmission.length - 1];
+
+    return {
+      totalEmissionKg: totalEmission,
+      averageEmissionPerTripKg: averageEmission,
+      highestEmissionTrip,
+      lowestEmissionTrip
+    };
+  }
+
+
 }
 
 module.exports = VehicleService;

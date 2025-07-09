@@ -5,6 +5,7 @@ class VehicleController {
     this.vehicleService = new VehicleService();
     this.updateVehicle = this.updateVehicle.bind(this);
     this.deleteVehicle = this.deleteVehicle.bind(this);
+    this.getVehicleSummary = this.getVehicleSummary.bind(this);
   }
 
   addVehicle = async (req, res) => {
@@ -76,6 +77,19 @@ class VehicleController {
       res.status(500).json({ message: error.message || "Internal Server Error" });
     }
   };
+
+  getVehicleSummary = async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const summary = await this.vehicleService.getVehicleSummary(userId);
+
+      res.status(200).json({ data: summary });
+    } catch (error) {
+      console.error("GetVehicleSummary Error:", error.message);
+      res.status(500).json({ message: error.message || "Internal Server Error" });
+    }
+  };
+
 
 
 }
