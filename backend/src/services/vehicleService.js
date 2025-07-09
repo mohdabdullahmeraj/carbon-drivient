@@ -45,6 +45,15 @@ class VehicleService {
   async getUserVehicles(userId) {
     return await vehicleRepository.getVehiclesByUser(userId);
   }
+
+  async updateVehicle(id, data) {
+    return await vehicleRepository.updateVehicle(id, data);
+  }
+
+  async deleteVehicle(id) {
+    return await vehicleRepository.deleteVehicle(id);
+  }
+
 }
 
 module.exports = VehicleService;
