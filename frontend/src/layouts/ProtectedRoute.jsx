@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { checkAuth } from '../utils/auth'; // create this file
+import { checkAuth } from '../utils/auth'; 
 
 export default function ProtectedRoute({ children }) {
   const [isAuth, setIsAuth] = useState(null);

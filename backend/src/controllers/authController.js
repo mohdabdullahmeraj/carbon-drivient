@@ -34,9 +34,9 @@ const handleLogin = async (req, res) => {
     res
       .cookie('token', token, {
         httpOnly: true,
-        secure: false, // set to true if using HTTPS
+        secure: false, 
         sameSite: 'Lax',
-        maxAge: 24 * 60 * 60 * 1000 // 1 day
+        maxAge: 24 * 60 * 60 * 1000 
       })
       .status(200).json({ message: 'Login successful', token, safeUser })
   } catch (err) {
