@@ -25,6 +25,7 @@ const Register = () => {
       );
 
       if (response.status === 201) {
+
         navigate('/dashboard');
       }
     } catch (error) {
@@ -50,7 +51,7 @@ const Register = () => {
       >
         <div className="flex flex-col items-center mb-6">
           <span className="text-4xl font-bold text-[#FF9494] mb-2 tracking-wide">
-            🌿 Carbonic UI
+            🌿Drivient
           </span>
           <span className="text-base text-gray-500 font-sans-secondary">
             Create your account to get started

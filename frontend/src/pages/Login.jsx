@@ -11,6 +11,8 @@ const Login = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const [loading, setLoading] = useState(false);
 
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -49,7 +51,7 @@ const Login = () => {
       >
         <div className="flex flex-col items-center mb-6">
           <span className="text-4xl font-bold text-[#FF9494] mb-2 tracking-wide">
-            🌿 Carbonic UI
+            🌿Drivient
           </span>
           <span className="text-base text-gray-500 font-sans-secondary">
             Welcome! Please log in to continue
