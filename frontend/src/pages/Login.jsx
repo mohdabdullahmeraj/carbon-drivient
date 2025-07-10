@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -119,6 +119,12 @@ const Login = () => {
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
+        <p className="text-sm text-gray-600 mt-4">
+          New user?{' '}
+          <Link to="/register" className="text-[#FF9494] font-semibold hover:underline">
+            Register here
+          </Link>
+        </p>
       </motion.div>
     </div>
   );

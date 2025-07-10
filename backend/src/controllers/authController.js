@@ -3,7 +3,7 @@ const { register, login } = authService
 
 const handleRegister = async (req, res) => {
   try {
-    const user = await register(req.body)
+    const { user, token } = await login(req.body)
 
     const safeUser = {
       id: user.id,
@@ -11,13 +11,21 @@ const handleRegister = async (req, res) => {
       email: user.email,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt
-    }
+    };
 
-    res.status(201).json({ message: 'User created successfully', safeUser })
+    res
+      .cookie('token', token, {
+        httpOnly: true,
+        secure: false, 
+        sameSite: 'Lax',
+        maxAge: 24 * 60 * 60 * 1000
+      })
+      .status(201)
+      .json({ message: 'User registered successfully', token, safeUser });
   } catch (err) {
-    res.status(500).json({ error: err.message })
+    res.status(500).json({ error: err.message });
   }
-}
+};
 
 const handleLogin = async (req, res) => {
   try {
@@ -54,8 +62,19 @@ const getCurrentUser = (req, res) => {
   res.status(200).json({ user });
 };
 
+const handleLogout = (req, res) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: false,
+    sameSite: 'Lax'
+  });
+
+  res.status(200).json({ message: 'Logged out successfully' });
+};
+
 module.exports = {
   handleRegister,
   handleLogin,
+  handleLogout,
   getCurrentUser
 }
