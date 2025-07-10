@@ -31,13 +31,31 @@ const handleLogin = async (req, res) => {
       updatedAt: user.updatedAt
     }
 
-    res.status(200).json({ message: 'Login successful', token, safeUser })
+    res
+      .cookie('token', token, {
+        httpOnly: true,
+        secure: false, // set to true if using HTTPS
+        sameSite: 'Lax',
+        maxAge: 24 * 60 * 60 * 1000 // 1 day
+      })
+      .status(200).json({ message: 'Login successful', token, safeUser })
   } catch (err) {
     res.status(401).json({ error: err.message })
   }
 }
 
+const getCurrentUser = (req, res) => {
+  const user = req.user;
+
+  if (!user) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  res.status(200).json({ user });
+};
+
 module.exports = {
   handleRegister,
-  handleLogin
+  handleLogin,
+  getCurrentUser
 }
