@@ -10,10 +10,10 @@ class VehicleController {
 
   addVehicle = async (req, res) => {
     try {
-      const userId = req.user.id; // assuming you have middleware that attaches user to req
-      const { vehicleModelId, distance, distanceUnit } = req.body;
+      const userId = req.user.id; 
+      const { vehicleModelId, distance, distanceUnit, duration } = req.body;
 
-      if (!vehicleModelId || !distance || !distanceUnit) {
+      if (!vehicleModelId || !distance || !distanceUnit || !duration) {
         return res.status(400).json({ message: "Missing required fields" });
       }
 
@@ -21,7 +21,8 @@ class VehicleController {
         userId,
         vehicleModelId,
         distance,
-        distanceUnit
+        distanceUnit,
+        duration
       });
 
       res.status(201).json({ message: "Vehicle entry added", data: vehicle });

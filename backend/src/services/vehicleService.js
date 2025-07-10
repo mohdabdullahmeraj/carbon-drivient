@@ -30,14 +30,15 @@ class VehicleService {
   }
 
   async addVehicleEntry(data) {
-    const { distance, distanceUnit, vehicleModelId, userId } = data;
+    const { distance, distanceUnit, duration, vehicleModelId, userId } = data;
 
     const carbonEmitted = await this.getVehicleCarbonEstimate({ distance, distanceUnit, vehicleModelId });
 
     return await vehicleRepository.createVehicle({
       userId,
       type: vehicleModelId,
-      duration: distance,
+      distance: distance,
+      duration: duration,
       carbonEmitted
     });
   }
