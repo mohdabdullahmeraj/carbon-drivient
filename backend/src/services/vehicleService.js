@@ -1,5 +1,5 @@
-const axios = require('axios');
-const { vehicleRepository } = require('../repositories');
+const axios = require("axios");
+const { vehicleRepository } = require("../repositories");
 
 const CARBON_API_KEY = process.env.CARBON_API_KEY;
 
@@ -7,39 +7,54 @@ class VehicleService {
   async getVehicleCarbonEstimate({ distance, distanceUnit, vehicleModelId }) {
     try {
       const response = await axios.post(
-        'https://www.carboninterface.com/api/v1/estimates',
+        "https://www.carboninterface.com/api/v1/estimates",
         {
-          type: 'vehicle',
+          type: "vehicle",
           distance_unit: distanceUnit,
           distance_value: distance,
-          vehicle_model_id: vehicleModelId
+          vehicle_model_id: vehicleModelId,
         },
         {
           headers: {
             Authorization: `Bearer ${CARBON_API_KEY}`,
-            'Content-Type': 'application/json'
-          }
+            "Content-Type": "application/json",
+          },
         }
       );
 
       return response.data.data.attributes.carbon_kg;
     } catch (error) {
-      console.error('Carbon API Error:', error?.response?.data || error.message);
-      throw new Error('Failed to estimate carbon emissions');
+      console.error(
+        "Carbon API Error:",
+        error?.response?.data || error.message
+      );
+      throw new Error("Failed to estimate carbon emissions");
     }
   }
 
   async addVehicleEntry(data) {
-    const { distance, distanceUnit, duration, vehicleModelId, userId } = data;
+    const {
+      distance,
+      distanceUnit,
+      duration,
+      vehicleModelId,
+      userId,
+      vehicleCategory,
+    } = data;
 
-    const carbonEmitted = await this.getVehicleCarbonEstimate({ distance, distanceUnit, vehicleModelId });
+    const carbonEmitted = await this.getVehicleCarbonEstimate({
+      distance,
+      distanceUnit,
+      vehicleModelId,
+    });
 
     return await vehicleRepository.createVehicle({
       userId,
       type: vehicleModelId,
       distance: distance,
       duration: duration,
-      carbonEmitted
+      carbonEmitted,
+      vehicleCategory: vehicleCategory,
     });
   }
 
@@ -63,14 +78,19 @@ class VehicleService {
         totalEmissionKg: 0,
         averageEmissionPerTripKg: 0,
         highestEmissionTrip: null,
-        lowestEmissionTrip: null
+        lowestEmissionTrip: null,
       };
     }
 
-    const totalEmission = allVehicles.reduce((sum, v) => sum + v.carbonEmitted, 0);
+    const totalEmission = allVehicles.reduce(
+      (sum, v) => sum + v.carbonEmitted,
+      0
+    );
     const averageEmission = totalEmission / allVehicles.length;
 
-    const sortedByEmission = [...allVehicles].sort((a, b) => a.carbonEmitted - b.carbonEmitted);
+    const sortedByEmission = [...allVehicles].sort(
+      (a, b) => a.carbonEmitted - b.carbonEmitted
+    );
     const lowestEmissionTrip = sortedByEmission[0];
     const highestEmissionTrip = sortedByEmission[sortedByEmission.length - 1];
 
@@ -78,11 +98,9 @@ class VehicleService {
       totalEmissionKg: totalEmission,
       averageEmissionPerTripKg: averageEmission,
       highestEmissionTrip,
-      lowestEmissionTrip
+      lowestEmissionTrip,
     };
   }
-
-
 }
 
 module.exports = VehicleService;

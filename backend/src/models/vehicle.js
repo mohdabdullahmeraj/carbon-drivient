@@ -7,27 +7,31 @@ const Vehicle = db.define('Vehicle', {
     allowNull: false
   },
   type: {
-    type: Sequelize.STRING, // car, bike, bus, etc.
+    type: Sequelize.STRING, 
     allowNull: false
   },
   vehicleModel: {
-    type: Sequelize.STRING, // e.g., Honda Activa, Swift Dzire
+    type: Sequelize.STRING, 
     allowNull: true
   },
   duration: {
-    type: Sequelize.FLOAT, // in minutes or hours
+    type: Sequelize.FLOAT, 
     allowNull: true
   },
   distance: {
-    type: Sequelize.FLOAT, // in kilometers
+    type: Sequelize.FLOAT, 
     allowNull: true
   },
   tripPurpose: {
-    type: Sequelize.STRING, // Work, Leisure, etc.
+    type: Sequelize.STRING, 
     allowNull: true
   },
   carbonEmitted: {
-    type: Sequelize.FLOAT // in kg
+    type: Sequelize.FLOAT 
+  },
+  vehicleCategory: {
+    type: Sequelize.STRING,
+    allowNull: true
   }
 })
 

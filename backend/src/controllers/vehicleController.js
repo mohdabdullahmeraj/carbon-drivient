@@ -1,4 +1,4 @@
-const VehicleService = require('../services/vehicleService');
+const VehicleService = require("../services/vehicleService");
 
 class VehicleController {
   constructor() {
@@ -10,8 +10,14 @@ class VehicleController {
 
   addVehicle = async (req, res) => {
     try {
-      const userId = req.user.id; 
-      const { vehicleModelId, distance, distanceUnit, duration } = req.body;
+      const userId = req.user.id;
+      const {
+        vehicleModelId,
+        distance,
+        distanceUnit,
+        duration,
+        vehicleCategory,
+      } = req.body;
 
       if (!vehicleModelId || !distance || !distanceUnit || !duration) {
         return res.status(400).json({ message: "Missing required fields" });
@@ -22,17 +28,19 @@ class VehicleController {
         vehicleModelId,
         distance,
         distanceUnit,
-        duration
+        duration,
+        vehicleCategory,
       });
 
       res.status(201).json({ message: "Vehicle entry added", data: vehicle });
-
     } catch (error) {
       console.error("VehicleController Error:", error.message);
-      res.status(500).json({ message: error.message || "Internal Server Error" });
+      res
+        .status(500)
+        .json({ message: error.message || "Internal Server Error" });
     }
-  }
-  
+  };
+
   getUserVehicles = async (req, res) => {
     try {
       const userId = req.user.id;
@@ -40,7 +48,9 @@ class VehicleController {
       res.status(200).json({ data: vehicles });
     } catch (error) {
       console.error("GetUserVehicles Error:", error.message);
-      res.status(500).json({ message: error.message || "Internal Server Error" });
+      res
+        .status(500)
+        .json({ message: error.message || "Internal Server Error" });
     }
   };
 
@@ -52,13 +62,17 @@ class VehicleController {
       const result = await this.vehicleService.updateVehicle(id, updateData);
 
       if (result[0] === 0) {
-        return res.status(404).json({ message: "Vehicle not found or not updated" });
+        return res
+          .status(404)
+          .json({ message: "Vehicle not found or not updated" });
       }
 
       res.status(200).json({ message: "Vehicle updated successfully" });
     } catch (error) {
       console.error("UpdateVehicle Error:", error.message);
-      res.status(500).json({ message: error.message || "Internal Server Error" });
+      res
+        .status(500)
+        .json({ message: error.message || "Internal Server Error" });
     }
   };
 
@@ -75,7 +89,9 @@ class VehicleController {
       res.status(200).json({ message: "Vehicle deleted successfully" });
     } catch (error) {
       console.error("DeleteVehicle Error:", error.message);
-      res.status(500).json({ message: error.message || "Internal Server Error" });
+      res
+        .status(500)
+        .json({ message: error.message || "Internal Server Error" });
     }
   };
 
@@ -87,12 +103,11 @@ class VehicleController {
       res.status(200).json({ data: summary });
     } catch (error) {
       console.error("GetVehicleSummary Error:", error.message);
-      res.status(500).json({ message: error.message || "Internal Server Error" });
+      res
+        .status(500)
+        .json({ message: error.message || "Internal Server Error" });
     }
   };
-
-
-
 }
 
 module.exports = VehicleController;

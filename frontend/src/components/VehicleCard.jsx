@@ -8,6 +8,7 @@ export default function VehicleCard({
   date,
   distance,
   duration,
+  vehicleCategory,
   id,
   onDelete,
 }) {
@@ -32,7 +33,10 @@ export default function VehicleCard({
         Emissions: <strong>{carbonEmitted} kg CO₂</strong>
       </p>
       {distance != null && <p className="text-sm">Distance: {distance} km</p>}
-      {duration && <p className="text-sm">Duration: {duration} h</p>}
+      {duration && <p className="text-sm">Duration: {duration} min</p>}
+      {vehicleCategory && (
+        <p className="text-sm">Vehicle Category: {vehicleCategory}</p>
+      )}
 
       <div className="flex gap-2 mt-2">
         <button

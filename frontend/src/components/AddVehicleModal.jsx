@@ -8,6 +8,26 @@ export default function AddVehicleModal({ onClose, onVehicleAdded }) {
   const [selectedModel, setSelectedModel] = useState("");
   const [distance, setDistance] = useState("");
   const [duration, setDuration] = useState("");
+  const [vehicleCategory, setVehicleCategory] = useState("");
+
+  const vehicleCategories = [
+    "Sedan",
+    "Hatchback",
+    "SUV",
+    "Crossover",
+    "Coupe",
+    "Convertible",
+    "Pickup Truck",
+    "Minivan",
+    "Van",
+    "Motorbike",
+    "Electric Car",
+    "Hybrid Car",
+    "Luxury Car",
+    "Sports Car",
+    "Commercial Truck",
+    "Bus",
+  ];
 
   useEffect(() => {
     axios
@@ -45,6 +65,7 @@ export default function AddVehicleModal({ onClose, onVehicleAdded }) {
 
     const payload = {
       vehicleModelId: selectedModel,
+      vehicleCategory: vehicleCategory,
       distance: parseFloat(distance),
       distanceUnit: "km",
       duration: parseFloat(duration),
@@ -64,6 +85,7 @@ export default function AddVehicleModal({ onClose, onVehicleAdded }) {
         ...res.data.data,
         make: selectedMakeObj?.name,
         modelName: selectedModelObj?.name,
+        vehicleCategory,
       });
 
       onClose();
@@ -117,6 +139,25 @@ export default function AddVehicleModal({ onClose, onVehicleAdded }) {
 
           <div>
             <label className="block text-sm font-medium mb-1">
+              Vehicle Category
+            </label>
+            <select
+              value={vehicleCategory}
+              onChange={(e) => setVehicleCategory(e.target.value)}
+              required
+              className="w-full border p-2 rounded"
+            >
+              <option value="">Select Category</option>
+              {vehicleCategories.map((cat, idx) => (
+                <option key={idx} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">
               Distance (in km)
             </label>
             <input
@@ -147,13 +188,13 @@ export default function AddVehicleModal({ onClose, onVehicleAdded }) {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded bg-gray-300"
+              className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded bg-blue-600 text-white"
+              className="px-4 py-2 rounded bg-[#FF9494]  hover:bg-[#cf6b6b] text-white"
             >
               Add
             </button>
