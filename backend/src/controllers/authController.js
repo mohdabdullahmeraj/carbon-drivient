@@ -3,7 +3,7 @@ const { register, login } = authService
 
 const handleRegister = async (req, res) => {
   try {
-    const { user, token } = await login(req.body)
+    const { user, token } = await register(req.body)
 
     const safeUser = {
       id: user.id,

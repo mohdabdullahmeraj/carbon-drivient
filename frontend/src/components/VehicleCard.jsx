@@ -39,12 +39,7 @@ export default function VehicleCard({
       )}
 
       <div className="flex gap-2 mt-2">
-        <button
-          className="text-sm px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500"
-          onClick={() => alert("Edit logic coming soon")}
-        >
-          Edit
-        </button>
+        
         <button
           className="text-sm px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
           onClick={handleDelete}

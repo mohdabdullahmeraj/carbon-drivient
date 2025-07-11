@@ -33,6 +33,9 @@ const Vehicle = db.define('Vehicle', {
     type: Sequelize.STRING,
     allowNull: true
   }
-})
+},
+{
+    timestamps: true, // ✅ Add this line to auto-manage createdAt and updatedAt
+  })
 
 module.exports = Vehicle
