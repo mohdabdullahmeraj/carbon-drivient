@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar'
 
 const Landing = () => {
   return (
-    <div className="bg-[#FFF5E4] min-h-screen font-sans">
+    <div className="bg-[#f1ffe4] min-h-screen font-sans">
       <Navbar />
 
       <section className="pt-32 pb-16 px-6 text-center mb-50">
@@ -12,7 +12,7 @@ const Landing = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="text-5xl md:text-6xl font-extrabold text-[#FF9494] mb-6 mt-24"
+          className="text-5xl md:text-6xl font-extrabold text-[#286109] mb-6 mt-24"
         >
           Welcome to Drivient
         </motion.h1>
@@ -20,7 +20,7 @@ const Landing = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-xl text-gray-700 max-w-2xl mx-auto"
+          className="text-xl text-[#235409] max-w-3xl mx-auto"
         >
           Track your impact, reduce your carbon footprint, and join the
           sustainable future.
@@ -33,32 +33,32 @@ const Landing = () => {
         >
           <a
             href="#features"
-            className="bg-[#FF9494] text-white px-8 py-4 rounded-full text-lg font-semibold shadow hover:bg-[#FFD1D1] hover:text-[#FF9494] transition-all "
+            className="bg-[#286109] text-white px-8 py-4 rounded-full text-lg font-semibold shadow hover:bg-[#a2d685] hover:text-[#497432] transition-all "
           >
             Explore Features
           </a>
         </motion.div>
       </section>
 
-      <section id="features" className="py-16 px-6 bg-[#FFE3E1] mb-24">
+      <section id="features" className="py-16 px-6 bg-[#ffffff] mb-24">
         <div className="max-w-5xl mx-auto text-center mt-10 mb-20">
-          <h2 className="text-3xl font-bold mb-8 text-[#FF9494]">Features</h2>
+          <h2 className="text-3xl font-bold mb-8 text-[#3e9c0b]">Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-xl shadow">
+            <div className="bg-[#f1ffe4] p-6 rounded-xl shadow">
               <div className="text-4xl mb-4">📊</div>
               <h3 className="font-bold text-lg mb-2">Track Your Footprint</h3>
               <p className="text-gray-600">
                 Log activities and monitor your carbon impact easily.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-xl shadow">
+            <div className="bg-[#f1ffe4] p-6 rounded-xl shadow">
               <div className="text-4xl mb-4">🤝</div>
               <h3 className="font-bold text-lg mb-2">Community Challenges</h3>
               <p className="text-gray-600">
                 Join others in eco-friendly challenges and build habits.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-xl shadow">
+            <div className="bg-[#f1ffe4] p-6 rounded-xl shadow">
               <div className="text-4xl mb-4">🏆</div>
               <h3 className="font-bold text-lg mb-2">Celebrate Progress</h3>
               <p className="text-gray-600">
@@ -74,31 +74,32 @@ const Landing = () => {
           <div className="md:w-1/2 mb-8 md:mb-0 flex justify-center">
             <img
               src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
-              alt="About Carbonic UI"
+              alt="About Drivient UI"
               className="rounded-2xl shadow-lg w-full max-w-md object-cover"
             />
           </div>
           <div className="md:w-1/2">
-            <h2 className="text-4xl md:text-5xl font-extrabold mb-4 text-pastel-accent">About Carbonic UI</h2>
-            <p className="text-xl text-gray-700 mb-4">
-              Carbonic UI is a pastel-themed, eco-inspired UI kit designed to help you build beautiful, modern websites
-              with ease. Our components are crafted for simplicity, accessibility, and a delightful user experience.
+            <h2 className="text-4xl md:text-5xl font-extrabold mb-4 text-[#142f05]">About Drivient 🌱</h2>
+            <h3 className="text-2xl md:text-1xl font-semibold mb-4 text-[#142f05]">It's like a fitness tracker, but for the planet.</h3>
+            <p className="text-xl text-[#0000000] mb-4">
+              Drivient is a web-based carbon footprint tracker designed to inspire individuals to reduce their environmental impact — not alone, but as a community. It challenges the belief that individual actions are too small to matter by turning sustainability into a shared, goal-oriented experience.
+
             </p>
-            <ul className="list-disc pl-5 text-lg text-gray-700 space-y-2">
-              <li>Minimal, clean, and modern design</li>
-              <li>Easy to customize and extend</li>
-              <li>Perfect for eco, wellness, and lifestyle projects</li>
+            <ul className="list-disc pl-5 text-lg text-[#000000] space-y-2">
+              <li>Track Your Footprint. Shape a Greener Future</li>
+              <li>Stay Fit for the Planet — One Step, One Habit at a Time</li>
+              <li>Turn Your Green Goals Into Daily Wins</li>
             </ul>
           </div>
         </div>
       </section>
 
-      <footer id="contact" className="font-sans bg-gradient-to-tr from-[#FFE3E1] via-[#FFF5E4] to-[#FFD1D1] shadow-inner">
+      <footer id="contact" className="font-sans bg-[#2a5214] shadow-inner">
         <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row gap-10 md:gap-0 justify-between items-start">
           <div className="flex-1 mb-8 md:mb-0">
-            <div className="text-2xl font-extrabold text-[#FF9494] mb-2">Carbonic UI</div>
-            <p className="text-gray-700 mb-4 max-w-xs">
-              A modern, pastel-inspired UI kit for beautiful, eco-friendly web projects.
+            <div className="text-2xl font-extrabold text-[#ffffff] mb-2">Drivient UI</div>
+            <p className="text-[#ffffff] mb-4 max-w-xs">
+              Drivient is a web-based carbon footprint tracker designed to inspire individuals to reduce their environmental impact
             </p>
             <div className="flex space-x-4 mt-2">
               <a
@@ -106,7 +107,7 @@ const Landing = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Twitter"
-                className="text-[#FF9494] bg-white rounded-full p-2 shadow hover:bg-[#FFD1D1] hover:text-[#1DA1F2] transition"
+                className="text-[#2a5214] bg-white rounded-full p-2 shadow hover:bg-[#c2ff94] hover:text-[#1DA1F2] transition"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <title>Twitter</title>
@@ -118,7 +119,7 @@ const Landing = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
-                className="text-[#FF9494] bg-white rounded-full p-2 shadow hover:bg-[#FFD1D1] hover:text-black transition"
+                className="text-[#2a5214] bg-white rounded-full p-2 shadow hover:bg-[#c2ff94] hover:text-black transition"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <title>GitHub</title>
@@ -130,7 +131,7 @@ const Landing = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="text-[#FF9494] bg-white rounded-full p-2 shadow hover:bg-[#FFD1D1] hover:text-[#0A66C2] transition"
+                className="text-[#2a5214] bg-white rounded-full p-2 shadow hover:bg-[#c2ff94] hover:text-[#0A66C2] transition"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <title>LinkedIn</title>
@@ -142,18 +143,18 @@ const Landing = () => {
 
           <div className="flex-1 flex flex-col items-start md:items-end">
             <nav aria-label="Footer links">
-              <ul className="space-y-2 md:space-y-0 md:space-x-8 flex flex-col md:flex-row text-base font-medium text-gray-700">
-                <li><a href="#about" className="hover:text-[#FF9494] transition">About</a></li>
-                <li><a href="#contact" className="hover:text-[#FF9494] transition">Contact</a></li>
-                <li><button type="button" className="hover:text-[#FF9494] transition bg-transparent border-none p-0 m-0 cursor-pointer">Privacy Policy</button></li>
-                <li><button type="button" className="hover:text-[#FF9494] transition bg-transparent border-none p-0 m-0 cursor-pointer">Terms of Service</button></li>
+              <ul className="space-y-2 md:space-y-0 md:space-x-8 flex flex-col md:flex-row text-base font-medium text-[#ffffff]">
+                <li><a href="#about" className="hover:text-[#c2ff94] transition">About</a></li>
+                <li><a href="#contact" className="hover:text-[#c2ff94] transition">Contact</a></li>
+                <li><button type="button" className="hover:text-[#c2ff94] transition bg-transparent border-none p-0 m-0 cursor-pointer">Privacy Policy</button></li>
+                <li><button type="button" className="hover:text-[#c2ff94] transition bg-transparent border-none p-0 m-0 cursor-pointer">Terms of Service</button></li>
               </ul>
             </nav>
           </div>
         </div>
 
-        <div className="text-center text-sm text-gray-600 pb-6">
-          © 2024 Carbonic UI. All rights reserved.
+        <div className="text-center text-sm text-[#ffffff] pb-6">
+          © 2024 Drivient UI. All rights reserved.
         </div>
       </footer>
 

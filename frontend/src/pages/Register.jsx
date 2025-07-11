@@ -40,48 +40,48 @@ const Register = () => {
 
   return (
     <div
-      className="bg-[#FFF5E4] min-h-screen flex items-center justify-center px-4 font-sans"
+      className="bg-[#f1ffe4] min-h-screen flex items-center justify-center px-4 font-sans"
       style={{ fontFamily: 'Poppins, Inter, Nunito, sans-serif' }}
     >
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: 'easeOut' }}
-        className="bg-[#FFE3E1] rounded-2xl p-8 shadow-2xl w-full max-w-md flex flex-col items-center border border-[#FFD1D1]"
+        className="bg-[#468723] rounded-2xl p-8 shadow-2xl w-full max-w-md flex flex-col items-center border border-[#b3ff8a]"
       >
         <div className="flex flex-col items-center mb-6">
-          <span className="text-4xl font-bold text-[#FF9494] mb-2 tracking-wide">
+          <span className="text-4xl font-bold text-[#ffffff] mb-2 tracking-wide">
             🌿Drivient
           </span>
-          <span className="text-base text-gray-500 font-sans-secondary">
+          <span className="text-base text-[#ffffff] font-sans-secondary">
             Create your account to get started
           </span>
         </div>
 
         <form className="w-full flex flex-col gap-5" onSubmit={handleSubmit}>
           <div>
-            <label className="block text-base font-semibold text-gray-700 mb-1">
+            <label className="block text-base font-semibold text-[#ffffff] mb-1">
               Name
             </label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full rounded-xl px-4 py-3 bg-white border border-[#FFD1D1] shadow focus:outline-none focus:ring-2 focus:ring-[#FF9494] text-base transition"
+              className="w-full rounded-xl px-4 py-3 bg-white border border-[#b7ff91] shadow focus:outline-none focus:ring-2 focus:ring-[#3b6226] text-base transition"
               placeholder="Your full name"
               required
             />
           </div>
 
           <div>
-            <label className="block text-base font-semibold text-gray-700 mb-1">
+            <label className="block text-base font-semibold text-[#ffffff] mb-1">
               Email
             </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-xl px-4 py-3 bg-white border border-[#FFD1D1] shadow focus:outline-none focus:ring-2 focus:ring-[#FF9494] text-base transition"
+              className="w-full rounded-xl px-4 py-3 bg-white border border-[#b7ff91] shadow focus:outline-none focus:ring-2 focus:ring-[#3b6226] text-base transition"
               placeholder="you@email.com"
               autoComplete="email"
               required
@@ -89,14 +89,14 @@ const Register = () => {
           </div>
 
           <div>
-            <label className="block text-base font-semibold text-gray-700 mb-1">
+            <label className="block text-base font-semibold text-[#ffffff] mb-1">
               Password
             </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-xl px-4 py-3 bg-white border border-[#FFD1D1] shadow focus:outline-none focus:ring-2 focus:ring-[#FF9494] text-base transition"
+              className="w-full rounded-xl px-4 py-3 bg-white border border-[#b7ff91] shadow focus:outline-none focus:ring-2 focus:ring-[#3b6226] text-base transition"
               placeholder="••••••••"
               autoComplete="new-password"
               required
@@ -104,21 +104,21 @@ const Register = () => {
           </div>
 
           {errorMsg && (
-            <p className="text-sm text-red-600 font-medium">{errorMsg}</p>
+            <p className="text-sm text-[#ff0000] font-medium">{errorMsg}</p>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="mt-2 bg-[#FF9494] text-white font-medium text-base rounded-xl py-3 shadow-lg hover:bg-[#FFD1D1] hover:text-[#FF9494] hover:scale-105 transition-all duration-200 tracking-wide"
+            className="mt-2 bg-[#004503] text-white font-medium text-base rounded-xl py-3 shadow-lg hover:bg-[#004503] hover:text-[#ffffff] hover:scale-105 transition-all duration-200 tracking-wide"
           >
             {loading ? 'Registering...' : 'Register'}
           </button>
         </form>
 
-        <p className="text-sm text-gray-600 mt-4">
+        <p className="text-sm text-[#ffffff] mt-4">
           Already have an account?{' '}
-          <Link to="/login" className="text-[#FF9494] font-semibold hover:underline">
+          <Link to="/login" className="text-[#d8ffc3] font-semibold hover:underline">
             Login here
           </Link>
         </p>
