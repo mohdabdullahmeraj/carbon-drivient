@@ -34,7 +34,6 @@
 - [Getting Started](#getting-started)
 - [API Integration](#api-integration)
 - [Future Scope](#future-scope)
-- [License](#license)
 
 ---
 
@@ -123,4 +122,23 @@ People often underestimate the carbon impact of their daily travel. Especially i
 - Node.js
 - MySQL
 - Carbon Interface API Key
-`
+
+---
+
+## 🔗 API Integration
+
+> **Carbon Interface API** is used to calculate emissions based on real-world vehicle data.
+
+- 📄 **Docs:** [carboninterface.com/docs](https://www.carboninterface.com/docs)
+- 🔐 API secured with server-side requests only
+- 🔑 Access controlled via **JWT tokens** stored in **httpOnly cookies**
+
+---
+
+## 🌱 Future Scope
+
+- 📱 Mobile App (React Native or Flutter)
+- 🌍 Public Impact Leaderboard
+- 🗺️ Integration with Maps for auto-logging trips
+- 🎁 Rewards through partnerships (eco-points, discounts)
+- 💳 Carbon Offset Donations via Stripe or Plaid
