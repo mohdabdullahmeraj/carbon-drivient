@@ -122,7 +122,7 @@ export default function Dashboard() {
 
       {/* Heading */}
       <h1 className="text-4xl font-bold text-[#286109] mb-2">
-        Welcome back, Abdullah 👋
+        Welcome back 👋
       </h1>
       <p className="text-slate-600 mb-10">
         Here’s your sustainability overview.

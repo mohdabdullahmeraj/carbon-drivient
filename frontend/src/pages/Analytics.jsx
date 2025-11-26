@@ -19,6 +19,7 @@ import {
 } from "recharts";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { getWeeklyTrend } from "@/utils/groupByWeek";
+import EmissionAreaChart from "@/components/analytics/EmissionAreaChart";
 
 export default function Analytics() {
   const [vehicles, setVehicles] = useState([]);
@@ -117,26 +118,13 @@ export default function Analytics() {
       ) : (
         <>
           {/* Weekly Trend */}
+
           <Card className="mb-8">
             <CardHeader>
               <CardTitle>Weekly Emission Trend</CardTitle>
             </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={weeklyTrend}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="day" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Line
-                    type="monotone"
-                    dataKey="emissions"
-                    stroke="#3b7a1d"
-                    strokeWidth={2}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+            <CardContent className="pt-2">
+              <EmissionAreaChart data={weeklyTrend} />
             </CardContent>
           </Card>
 
