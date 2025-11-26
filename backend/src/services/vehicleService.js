@@ -40,6 +40,7 @@ class VehicleService {
       vehicleModelId,
       userId,
       vehicleCategory,
+      tripPurpose,
     } = data;
 
     const estimate = await this.getVehicleCarbonEstimate({
@@ -57,6 +58,7 @@ class VehicleService {
       duration: duration,
       carbonEmitted: estimate.carbon_kg,
       vehicleCategory: vehicleCategory,
+      tripPurpose: tripPurpose,
     });
   }
 

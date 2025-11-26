@@ -4,6 +4,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import ProtectedRoute from './layouts/ProtectedRoute'
+import AppLayout from './layouts/AppLayout';
 
 export default function App() {
   return (
@@ -15,7 +16,9 @@ export default function App() {
         path="/dashboard"
         element={
           <ProtectedRoute>
-            <Dashboard />
+            <AppLayout>
+              <Dashboard />
+            </AppLayout>
           </ProtectedRoute>
         }
       />

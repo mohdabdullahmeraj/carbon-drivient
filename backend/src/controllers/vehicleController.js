@@ -17,6 +17,7 @@ class VehicleController {
         distanceUnit,
         duration,
         vehicleCategory,
+        tripPurpose,
       } = req.body;
 
       if (!vehicleModelId || !distance || !distanceUnit || !duration) {
@@ -30,6 +31,7 @@ class VehicleController {
         distanceUnit,
         duration,
         vehicleCategory,
+        tripPurpose,
       });
 
       res.status(201).json({ message: "Vehicle entry added", data: vehicle });
