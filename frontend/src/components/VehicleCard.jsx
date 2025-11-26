@@ -3,7 +3,7 @@ import axios from "axios";
 
 export default function VehicleCard({
   make,
-  modelName,
+  // modelName,
   carbonEmitted,
   date,
   distance,
@@ -26,7 +26,7 @@ export default function VehicleCard({
   return (
     <div className="bg-white shadow rounded-lg p-4 flex flex-col gap-1 border relative">
       <h4 className="font-bold text-lg capitalize">
-        {make} {modelName}
+        {make}
       </h4>
       <p className="text-sm text-gray-600">Date: {date}</p>
       <p className="text-sm">

@@ -22,7 +22,7 @@ class VehicleService {
         }
       );
 
-      return response.data.data.attributes.carbon_kg;
+      return response.data.data.attributes;
     } catch (error) {
       console.error(
         "Carbon API Error:",
@@ -42,7 +42,7 @@ class VehicleService {
       vehicleCategory,
     } = data;
 
-    const carbonEmitted = await this.getVehicleCarbonEstimate({
+    const estimate = await this.getVehicleCarbonEstimate({
       distance,
       distanceUnit,
       vehicleModelId,
@@ -51,9 +51,11 @@ class VehicleService {
     return await vehicleRepository.createVehicle({
       userId,
       type: vehicleModelId,
+      vehicleModel: estimate.vehicle_model,
+      make: estimate.vehicle_make,
       distance: distance,
       duration: duration,
-      carbonEmitted,
+      carbonEmitted: estimate.carbon_kg,
       vehicleCategory: vehicleCategory,
     });
   }

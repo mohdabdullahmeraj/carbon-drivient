@@ -10,6 +10,10 @@ const Vehicle = db.define('Vehicle', {
     type: Sequelize.STRING, 
     allowNull: false
   },
+  make: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
   vehicleModel: {
     type: Sequelize.STRING, 
     allowNull: true
