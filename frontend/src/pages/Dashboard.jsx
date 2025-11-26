@@ -24,6 +24,8 @@ import { toast } from "sonner";
 import AddVehicleDialog from "@/components/vehicles/AddVehicleDialog";
 import VehicleCard from "@/components/vehicles/VehicleCard";
 import { getWeeklyTrend } from "@/utils/groupByWeek";
+import { Button } from "@/components/ui/button";
+import { Download, Plus } from "lucide-react";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -94,7 +96,7 @@ export default function Dashboard() {
     selectedTag === "All"
       ? vehicles
       : vehicles.filter((v) => v.tripPurpose === selectedTag);
-      
+
   const refreshSummary = async () => {
     try {
       const res = await axios.get("http://localhost:3000/api/vehicle/summary", {
@@ -130,6 +132,103 @@ export default function Dashboard() {
     }
   };
 
+  // Time helpers
+  const now = new Date();
+
+  const isInLastNDays = (dateString, days) => {
+    const d = new Date(dateString);
+    const diffMs = now - d;
+    const diffDays = diffMs / (1000 * 60 * 60 * 24);
+    return diffDays >= 0 && diffDays < days;
+  };
+
+  const isBetweenDaysAgo = (dateString, fromDays, toDays) => {
+    const d = new Date(dateString);
+    const diffMs = now - d;
+    const diffDays = diffMs / (1000 * 60 * 60 * 24);
+    return diffDays >= fromDays && diffDays < toDays;
+  };
+
+  // Split trips by time windows
+  const last7DaysTrips = vehicles.filter((v) => isInLastNDays(v.createdAt, 7));
+
+  const prev7DaysTrips = vehicles.filter((v) =>
+    isBetweenDaysAgo(v.createdAt, 7, 14)
+  );
+
+  // Sum emissions
+  const sumEmission = (trips) =>
+    trips.reduce((sum, t) => sum + (t.carbonEmitted || 0), 0);
+
+  const last7Emission = sumEmission(last7DaysTrips);
+  const prev7Emission = sumEmission(prev7DaysTrips);
+
+  // Compute % change
+  let trendText = "Not enough data to compare weeks yet.";
+  if (last7Emission > 0 && prev7Emission > 0) {
+    const diff = last7Emission - prev7Emission;
+    const percent = Math.round((Math.abs(diff) / prev7Emission) * 100);
+    if (diff > 0) {
+      trendText = `Your emissions increased by ${percent}% compared to the previous week.`;
+    } else if (diff < 0) {
+      trendText = `Nice! Your emissions decreased by ${percent}% compared to the previous week.`;
+    } else {
+      trendText =
+        "Your emissions stayed the same compared to the previous week.";
+    }
+  } else if (last7Emission > 0 && prev7Emission === 0) {
+    trendText = "You started tracking trips this week. Keep going!";
+  }
+
+  // Category with highest emissions
+  const categoryTotals = vehicles.reduce((acc, v) => {
+    const cat = v.vehicleCategory || "Unknown";
+    acc[cat] = (acc[cat] || 0) + (v.carbonEmitted || 0);
+    return acc;
+  }, {});
+
+  let topCategory = null;
+  let topCategoryEmission = 0;
+  Object.entries(categoryTotals).forEach(([cat, total]) => {
+    if (total > topCategoryEmission) {
+      topCategoryEmission = total;
+      topCategory = cat;
+    }
+  });
+
+  const categoryText = topCategory
+    ? `Most of your emissions come from ${topCategory} trips.`
+    : "No category insights yet — add some trips.";
+
+  // Tag with highest emissions
+  const tagTotals = vehicles.reduce((acc, v) => {
+    if (!v.tripPurpose) return acc;
+    acc[v.tripPurpose] = (acc[v.tripPurpose] || 0) + (v.carbonEmitted || 0);
+    return acc;
+  }, {});
+
+  let topTag = null;
+  let topTagEmission = 0;
+  Object.entries(tagTotals).forEach(([tag, total]) => {
+    if (total > topTagEmission) {
+      topTagEmission = total;
+      topTag = tag;
+    }
+  });
+
+  const tagText = topTag
+    ? `You emit the most CO₂ on "${topTag}" trips.`
+    : "Tag your trips to see where most of your emissions come from.";
+
+  // Last 7 days trip count
+  const last7TripCount = last7DaysTrips.length;
+  const streakText =
+    last7TripCount > 0
+      ? `You logged ${last7TripCount} trip${
+          last7TripCount > 1 ? "s" : ""
+        } in the last 7 days.`
+      : "You haven't logged any trips in the last 7 days.";
+
   const categoryData = filteredVehicles.reduce((acc, v) => {
     const cat = v.vehicleCategory || "Unknown";
     if (!acc[cat]) {
@@ -159,6 +258,53 @@ export default function Dashboard() {
     duration: v.duration || 0,
     emission: v.carbonEmitted || 0,
   }));
+
+  const downloadCSV = () => {
+    if (!vehicles || vehicles.length === 0) {
+      alert("No vehicle data to export");
+      return;
+    }
+
+    const headers = [
+      "Make",
+      "Model",
+      "Category",
+      "Tag",
+      "Distance (km)",
+      "Duration (min)",
+      "Carbon Emitted (kg)",
+      "Date",
+    ];
+
+    const rows = vehicles.map((v) => [
+      v.make || "N/A",
+      v.modelName || "N/A",
+      v.vehicleCategory || "N/A",
+      v.tripPurpose || "N/A",
+      v.distance || 0,
+      v.duration || 0,
+      v.carbonEmitted || 0,
+      new Date(v.createdAt).toLocaleDateString(),
+    ]);
+
+    // Convert to CSV string
+    let csvContent = headers.join(",") + "\n";
+    rows.forEach((row) => {
+      csvContent += row.join(",") + "\n";
+    });
+
+    // Create blob file
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+
+    // Create download link
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "drivient_trips.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   if (loading) return <DashboardSkeleton />;
 
@@ -205,6 +351,105 @@ export default function Dashboard() {
             ))}
           </select>
         </div>
+
+        {summary && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <Card>
+              <CardHeader>
+                <CardTitle>Total Emissions</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-3xl font-bold">
+                  {summary?.totalEmissionKg ?? 0} kg CO₂
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Average Emissions</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-3xl font-bold">
+                  {summary?.averageEmissionPerTripKg ?? 0} kg CO₂
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {summary && (
+          <div className="text-center mb-2">
+            <span className="text-lg font-semibold text-[#286109]">
+              🌳To neutralize your impact,{" "}
+              {/* <span className="text-2xl font-bold"> */}
+              {Math.floor(((summary?.totalEmissionKg ?? 0) / 21) * 100) / 100}
+              {/* </span>{" "} */} trees would be needed
+            </span>
+          </div>
+        )}
+
+        <div className="text-center mb-2">
+          <span className="text-lg font-semibold text-[#286109]">
+            📈 {trendText}
+          </span>
+        </div>
+        <div className="text-center mb-2">
+          <span className="text-lg font-semibold text-[#286109]">
+            🚗 {categoryText}
+          </span>
+        </div>
+
+        <div className="text-center mb-2">
+          <span className="text-lg font-semibold text-[#286109]">
+            🏷️ {tagText}
+          </span>
+        </div>
+
+        <div className="text-center mb-10">
+          <span className="text-lg font-semibold text-[#286109]">
+            📅 {streakText}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          {summary?.highestEmissionTrip && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  🚗 Highest Emission Trip
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm space-y-1">
+                <p>
+                  <strong>{summary.highestEmissionTrip.carbonEmitted}</strong>{" "}
+                  kg CO₂
+                </p>
+                <p>Duration: {summary.highestEmissionTrip.duration} min</p>
+                <p>Distance: {summary.highestEmissionTrip.distance} km</p>
+              </CardContent>
+            </Card>
+          )}
+
+          {summary?.lowestEmissionTrip && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  🌿 Lowest Emission Trip
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm space-y-1">
+                <p>
+                  <strong>{summary.lowestEmissionTrip.carbonEmitted}</strong> kg
+                  CO₂
+                </p>
+                <p>Duration: {summary.lowestEmissionTrip.duration} min</p>
+                <p>Distance: {summary.lowestEmissionTrip.distance} km</p>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+
         <Card className="mb-10">
           <CardHeader>
             <CardTitle>Weekly Emission Trend</CardTitle>
@@ -306,91 +551,27 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {summary && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <Card>
-              <CardHeader>
-                <CardTitle>Total Emissions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-3xl font-bold">
-                  {summary?.totalEmissionKg ?? 0} kg CO₂
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Average Emissions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-3xl font-bold">
-                  {summary?.averageEmissionPerTripKg ?? 0} kg CO₂
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-
-        {summary && (
-          <div className="text-center mb-10">
-            <span className="text-lg font-semibold text-[#286109]">
-              To neutralize your impact,{" "}
-              <span className="text-2xl font-bold">
-                {Math.floor(((summary?.totalEmissionKg ?? 0) / 21) * 100) / 100}
-              </span>{" "}
-              trees would be needed 🌳
-            </span>
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          {summary?.highestEmissionTrip && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  🚗 Highest Emission Trip
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm space-y-1">
-                <p>
-                  <strong>{summary.highestEmissionTrip.carbonEmitted}</strong>{" "}
-                  kg CO₂
-                </p>
-                <p>Duration: {summary.highestEmissionTrip.duration} min</p>
-                <p>Distance: {summary.highestEmissionTrip.distance} km</p>
-              </CardContent>
-            </Card>
-          )}
-
-          {summary?.lowestEmissionTrip && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  🌿 Lowest Emission Trip
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm space-y-1">
-                <p>
-                  <strong>{summary.lowestEmissionTrip.carbonEmitted}</strong> kg
-                  CO₂
-                </p>
-                <p>Duration: {summary.lowestEmissionTrip.duration} min</p>
-                <p>Distance: {summary.lowestEmissionTrip.distance} km</p>
-              </CardContent>
-            </Card>
-          )}
-        </div>
-
         <Card className="mt-10">
           <CardHeader className="flex flex-row justify-between items-center">
             <CardTitle>Your Trips</CardTitle>
-            <button
-              onClick={() => setShowModal(true)}
-              className="px-4 py-2 bg-green-600 text-white rounded"
-            >
-              + Add Vehicle
-            </button>
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                onClick={downloadCSV}
+                className="px-4 py-2 flex items-center gap-2 "
+              >
+                <Download size={16} />
+                Export CSV
+              </Button>
+              <Button
+              variant="outline"
+                onClick={() => setShowModal(true)}
+                className="px-4 py-2 flex items-center gap-2 bg-green-600 text-white"
+              >
+                <Plus size={16} />
+                Add Vehicle
+              </Button>
+            </div>
           </CardHeader>
 
           <CardContent>
