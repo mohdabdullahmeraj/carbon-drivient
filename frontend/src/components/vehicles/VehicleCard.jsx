@@ -13,7 +13,7 @@ import { MoreVertical } from "lucide-react";
 export default function VehicleCard({
   id,
   make,
-  modelName,
+//   modelName,
   carbonEmitted,
   date,
   distance,

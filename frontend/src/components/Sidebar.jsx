@@ -13,8 +13,6 @@ import { cn } from '@/lib/utils';
 
 const navItems = [
   { label: 'Dashboard', to: '/dashboard', icon: Home },
-  // we’ll add these pages later
-  { label: 'Vehicles', to: '/vehicles', icon: Car },
   { label: 'Trips', to: '/trips', icon: Route },
   { label: 'Analytics', to: '/analytics', icon: BarChart3 },
   { label: 'Profile', to: '/profile', icon: User },
