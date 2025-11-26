@@ -70,10 +70,28 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
+  const refreshSummary = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/api/vehicle/summary", {
+        withCredentials: true,
+      });
+      setSummary(res.data.data);
+    } catch (err) {
+      console.error("Error refreshing summary:", err);
+    }
+  };
+
   const handleVehicleAdded = (newVehicle) => {
     setVehicles((prev) => [...prev, newVehicle]);
+    refreshSummary();   // ⬅️ FIXES CHARTS
     setShowModal(false);
   };
+
+  const handleDeleteVehicle = (id) => {
+    setVehicles(prev => prev.filter(v => v.id !== id));
+    refreshSummary();   // <-- FIXES CHARTS
+  };
+
 
   const handleLogout = async () => {
   try {
@@ -277,9 +295,7 @@ export default function Dashboard() {
                 duration={vehicle.duration}
                 vehicleCategory={vehicle.vehicleCategory}
                 id={vehicle.id}
-                onDelete={(id) =>
-                  setVehicles((prev) => prev.filter((v) => v.id !== id))
-                }
+                onDelete={handleDeleteVehicle}
               />
             ))}
           </div>
