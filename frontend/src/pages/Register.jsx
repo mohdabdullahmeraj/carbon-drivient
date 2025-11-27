@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import { motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
